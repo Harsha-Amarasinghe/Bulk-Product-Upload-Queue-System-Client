@@ -1,0 +1,41 @@
+.container {
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+}
+
+.realtime-updates {
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.realtime-updates ul {
+    list-style: none;
+    padding: 0;
+}
+
+.realtime-updates li {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}

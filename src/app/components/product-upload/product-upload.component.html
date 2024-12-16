@@ -1,0 +1,59 @@
+<div class="container">
+    <h1>Product Upload</h1>
+
+    <div>
+        <input type="file" (change)="onFileSelected($event)" />
+        <button (click)="uploadFile()">Upload</button>
+    </div>
+
+    <p><strong>Current Status:</strong> {{ processingStatus }}</p>
+
+    <h2>Real-Time Updates</h2>
+    <div class="realtime-updates">
+        <ul>
+            <li *ngFor="let update of statusUpdates">{{ update }}</li>
+        </ul>
+    </div>
+
+    <h2>Download Reports</h2>
+    <button (click)="downloadReport('successProducts')">Download Products</button>
+    <button (click)="downloadReport('errorLog')">Download Error Log</button>
+
+    <h2>Successful Products</h2>
+    <table>
+        <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Description</th>
+        </tr>
+        <tr *ngFor="let product of successProducts">
+            <td>{{ product.productId }}</td>
+            <td>{{ product.productName }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.stockQuantity }}</td>
+            <td>{{ product.description }}</td>
+        </tr>
+    </table>
+
+    <h2>Error Logs</h2>
+    <table>
+        <tr>
+            <th>Product ID</th>
+            <th>Error Message</th>
+            <th>Date</th>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Description</td>
+        </tr>
+        <tr *ngFor="let error of errorLogs">
+            <td>{{ error.productId }}</td>
+            <td>{{ error.errorMessage }}</td>
+            <td>{{ error.dateLogged }}</td>
+            <td>{{ error.productName }}</td>
+            <td>{{ error.price }}</td>
+            <td>{{ error.description }}</td>
+        </tr>
+    </table>
+</div>
