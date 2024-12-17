@@ -8,21 +8,19 @@ import { WebSocketService } from '../../services/web-socket.service';
   styleUrls: ['./product-upload.component.css']
 })
 export class ProductUploadComponent implements OnInit, OnDestroy {
-  selectedFile: File | null = null;  // Selected file for upload
-  successProducts: any[] = [];  // Array to store successfully processed products
-  errorLogs: any[] = [];  // Array to store error logs
-  processingStatus: string = '';  // Status message for upload progress
+  selectedFile: File | null = null;  
+  successProducts: any[] = [];  
+  errorLogs: any[] = [];  
+  processingStatus: string = '';  
   isLoading: boolean = false;
-  statusUpdates: string[] = [];  // Array to store real-time updates
+  statusUpdates: string[] = [];  
   private websocketSubscription: any;
 
   constructor(private http: HttpClient, private webSocketService: WebSocketService, private ngZone: NgZone) {}
 
   ngOnInit(): void {
-    // Fetch initial results when the component loads
     this.fetchResults();
 
-    // Connect to WebSocket to receive processing status updates
     this.webSocketService.connect((message: string) => {
       this.ngZone.run(() => {
         this.statusUpdates.push(message);  // Add the message to the array
@@ -38,12 +36,10 @@ export class ProductUploadComponent implements OnInit, OnDestroy {
     this.webSocketService.disconnect();
   }
 
-  // Handle file selection event
   onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];  // Store the selected file
+    this.selectedFile = event.target.files[0];  
   }
 
-  // Upload the selected file to the backend
   uploadFile(): void {
     if (!this.selectedFile) {
       alert('Please select a file first!');
@@ -51,16 +47,14 @@ export class ProductUploadComponent implements OnInit, OnDestroy {
     }
 
     const formData = new FormData();
-    formData.append('file', this.selectedFile);  // Append the selected file to form data
+    formData.append('file', this.selectedFile); 
 
-    // Update the processing status
     this.processingStatus = 'Processing started...';
 
-    // Make a POST request to upload the file
     this.http.post('http://localhost:8080/api/products/upload', formData, { responseType: 'text' }).subscribe(
       (response: string) => {
-        this.processingStatus = response;  // Handle plain text response
-        this.fetchResults();  // Fetch results after successful upload
+        this.processingStatus = response;  
+        this.fetchResults();  
       },
       (error) => {
         console.error(error);
@@ -69,11 +63,9 @@ export class ProductUploadComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Fetch success and error results from the backend
   fetchResults(): void {
     this.isLoading = true;
 
-    // Fetch success products
     this.http.get<any[]>(`http://localhost:8080/api/products/success`).subscribe(
       (data) => {
         this.successProducts = data;
@@ -86,7 +78,6 @@ export class ProductUploadComponent implements OnInit, OnDestroy {
       }
     );
 
-    // Fetch error logs
     this.http.get<any[]>(`http://localhost:8080/api/products/errors`).subscribe(
       (data) => (this.errorLogs = data),
       (error) => {
@@ -96,9 +87,7 @@ export class ProductUploadComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Download the error report from the backend
   downloadReport(reportType:string): void {
-    // Trigger a file download
     window.location.href = `http://localhost:8080/api/products/report?type=${reportType}`;
   }
 }

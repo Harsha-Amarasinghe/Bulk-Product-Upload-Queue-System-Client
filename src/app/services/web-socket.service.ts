@@ -20,7 +20,7 @@ export class WebSocketService {
       console.log('Connected to WebSocket');
       this.client.subscribe('/topic/status', (message: Message) => {
         console.log('Received message:', message.body);
-        onMessage(message.body);  // Pass the message to the component
+        onMessage(message.body);  
       });
     };
 
